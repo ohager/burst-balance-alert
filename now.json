@@ -1,7 +1,8 @@
 {
   "env": {
-    "ApiUser": "@burst-balance-alert-user",
-    "ApiPass": "@burst-balance-alert-pass"
+    "API_USER": "@burst-balance-alert-user",
+    "API_PASS": "@burst-balance-alert-pass",
+    "BURST_PEER": "https://wallet.burst-alliance.org:8125"
   },
   "routes": [
     { "src": "/api/(.*)",
