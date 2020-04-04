@@ -1,7 +1,11 @@
 {
   "routes": [
-    { "src": "/api/status", "dest": "/api/status" },
-    { "src": "/api/test", "dest": "/api/test" },
+    { "src": "/api/(.*)",
+      "dest": "/api/$1",
+      "headers": {
+        "Access-Control-Allow-Headers": "*"
+      }
+    },
     { "src": "/.*", "status": 404}
   ]
 }
