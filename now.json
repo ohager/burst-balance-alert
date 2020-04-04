@@ -1,6 +1,7 @@
 {
   "routes": [
-    { "src": "/api/(<fn>.*)", "dest": "/api/$fn.js" },
-    { "src": "/.*", "dest": "/api/status"}
+    { "src": "/api/status", "dest": "/api/status" },
+    { "src": "/api/test", "dest": "/api/test" },
+    { "src": "/.*", "status": 404}
   ]
 }

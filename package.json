@@ -4,11 +4,11 @@
   "description": "A simple service that alerts if a certain Burstcoin account passes a threshold",
   "main": "index.js",
   "engines": {
-    "node": ">=12"
+    "node": "12.x"
   },
-  "type": "module",
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node index.js"
+    "start:dev": "now dev",
+    "lint": "eslint ./api/test.ts --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -27,13 +27,16 @@
   },
   "homepage": "https://github.com/ohager/burst-balance-alert#readme",
   "devDependencies": {
+    "@now/node": "^1.5.0",
+    "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^6.8.0",
-    "now": "^17.1.1"
+    "now": "^17.1.1",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "aws-sdk": "^2.648.0",
-    "basic-auth": "^2.0.1",
-    "cors": "^2.8.5",
-    "polka": "^0.5.2"
+    "basic-auth": "^2.0.1"
   }
 }
