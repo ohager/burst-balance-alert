@@ -1,11 +1,9 @@
 import basicAuth from 'basic-auth'
 
-function verify(name, pass) {
-  // FIXME: This is just fake...
-  return name==='john' && pass==='pass'
-}
+const verify = (name, pass): boolean => name === process.env.ApiUser
+    && pass === process.env.ApiPass;
 
-export const withBasicAuth = fn => (req, res) => {
+export const withBasicAuth = fn => (req, res): void => {
   const credentials = basicAuth(req)
   if(credentials && verify(credentials.name, credentials.pass)){
     fn(req, res)

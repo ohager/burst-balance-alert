@@ -1,4 +1,8 @@
 {
+  "env": {
+    "ApiUser": "@burst-balance-alert-user",
+    "ApiPass": "@burst-balance-alert-pass"
+  },
   "routes": [
     { "src": "/api/(.*)",
       "dest": "/api/$1",
