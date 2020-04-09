@@ -1,5 +1,10 @@
+
 # burst-balance-alert
-Simple service, that notifies you (or others) when a Burst account reaches a certain balance.
+Simple service, that notifies you (or others) via Mail, SMS, or Telegram, when a Burst account reaches a certain balance.
+
+🚨WORK IN PROGRESS 🚨
+
+> Not ready yet - DON'T USE
 
 # Introduction
 
