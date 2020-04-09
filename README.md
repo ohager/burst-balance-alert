@@ -83,7 +83,7 @@ Returns:
 {
     "account": "13888633022253876551",
     "balanceBurst": "16928.87210584",
-    "notified": false // for check will be always 'false'
+    "notified": false 
 }
 ```
 
