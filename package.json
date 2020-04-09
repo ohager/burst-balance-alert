@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start:dev": "now dev",
+    "deploy": "now --prod",
     "lint": "eslint ./api/test.ts --ext .ts"
   },
   "repository": {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (req, res) => {
-    res.send('Service is up')
+export default (req, res): void => {
+    res.send('Burst Balance Alert is up')
 }
