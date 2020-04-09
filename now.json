@@ -2,8 +2,8 @@
   "env": {
     "API_USER": "@burst-balance-alert-user",
     "API_PASS": "@burst-balance-alert-pass",
-    "AWS_KEY_ID": "@aws-key-id",
-    "AWS_SECRET_KEY": "@aws-secret-key",
+    "AWS_ID": "@aws-key-id",
+    "AWS_SECRET": "@aws-secret-key",
     "BURST_PEER": "https://wallet.burst-alliance.org:8125"
   },
   "routes": [
