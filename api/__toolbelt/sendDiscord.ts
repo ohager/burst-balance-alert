@@ -1,14 +1,15 @@
 import fetch from 'node-fetch'
 import {BurstValue, convertNumericIdToAddress} from '@burstjs/util';
 import buildBurstExplorerUrl from './buildBurstExplorerUrl';
+import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 
-interface TelegramArgs {
+interface DiscordArgs {
     accountId: string;
     balance: BurstValue;
-    recipientToken: string;
+    origin: string;
 }
 
-const buildMessage = (accountId: string, balance: BurstValue): string => {
+const buildMessage = ({accountId, balance, origin}: DiscordArgs): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
     return `🚨*${accountAddress}*🚨 
@@ -16,19 +17,17 @@ const buildMessage = (accountId: string, balance: BurstValue): string => {
 Balance: \`${balance.getBurst()} BURST\`
 ---
 [Open in Burst Explorer](${buildBurstExplorerUrl(accountId)}) 
+[Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})
 `
 }
 
-export default async ({accountId, balance, recipientToken}: TelegramArgs): Promise<void> => {
+export default async (args: DiscordArgs): Promise<void> => {
 
     const body = JSON.stringify({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        recipient_token: recipientToken,
-        text: buildMessage(accountId, balance),
-        origin: "Burst Balance Alert"
+        content: buildMessage(args),
     })
 
-    await fetch('https://apps.muetsch.io/middleman/api/messages',
+    await fetch(process.env.DISCORD_WEBHOOK,
         {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

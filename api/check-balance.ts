@@ -6,18 +6,13 @@ import {BurstValue} from '@burstjs/util';
 import {withQueryValidation} from './__toolbelt/withQueryValidation';
 import sendTelegram from './__toolbelt/sendTelegram';
 import sendSms from './__toolbelt/sendSms';
+import sendDiscord from './__toolbelt/sendDiscord';
+import getOrigin from './__toolbelt/getOrigin';
 
 const BurstApi = composeApi(new ApiSettings(process.env.BURST_PEER))
 
-const QueryArgsSchema = {
-    account: {type: 'string'},
-    compare: {type: 'string', enum: ['lt', 'gt'], optional: true},
-    targetBurst: {type: 'number', positive: true, optional: true},
-    msgType: {type: 'string', enum: ['sms', 'telegram', 'mail'], optional: true},
-    msgAddress: {type: 'string', optional: true}
-}
 type CompareType = 'lt' | 'gt'
-type MessageType = 'mail' | 'sms' | 'telegram'
+type MessageType = 'mail' | 'sms' | 'telegram' | 'discord'
 
 interface QueryArgs {
     account: string;
@@ -25,7 +20,6 @@ interface QueryArgs {
     targetBurst?: string;
     msgType?: MessageType; // TODO: multiple types
     msgAddress?: string;
-
 }
 
 interface CheckResult {
@@ -42,22 +36,28 @@ interface ResponseData {
     recipientAddress?: string;
 }
 
-const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue): Promise<void> => {
+const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: string): Promise<void> => {
     const {account, msgType, msgAddress} = queryArgs;
     switch (msgType) {
         case 'mail':
-            return Promise.resolve()
+            return Promise.reject("Mail not supported yet")
         case 'sms':
             return sendSms({
+                accountId: account,
                 balance: actualBalance,
                 phoneNumber: msgAddress,
-                accountId: account,
             })
         case 'telegram':
             return sendTelegram({
-                balance: actualBalance,
                 accountId: account,
+                balance: actualBalance,
                 recipientToken: msgAddress,
+            })
+        case 'discord':
+            return sendDiscord({
+                accountId: account,
+                balance: actualBalance,
+                origin
             })
     }
     return Promise.resolve()
@@ -80,7 +80,17 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
     return {shouldNotify}
 }
 
-function ConditionalValidation(queryArgs: QueryArgs): true | ValidationError[] {
+
+const QueryArgsSchema = {
+    account: {type: 'string'},
+    compare: {type: 'string', enum: ['lt', 'gt'], optional: true},
+    targetBurst: {type: 'number', positive: true, optional: true},
+    msgType: {type: 'string', enum: ['sms', 'telegram', 'discord', 'mail'], optional: true},
+    msgAddress: {type: 'string', optional: true}
+}
+
+
+const ConditionalValidation = (queryArgs: QueryArgs): true | ValidationError[] => {
     const {msgAddress, msgType, compare, targetBurst} = queryArgs
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const notUndef = (v: any): boolean => v !== undefined
@@ -101,7 +111,7 @@ function ConditionalValidation(queryArgs: QueryArgs): true | ValidationError[] {
             message: 'Field [compare] requires [msgAddress, msgType, targetBurst]'
         }
     ]
-}
+};
 
 export default withBasicAuth(
     withQueryValidation(QueryArgsSchema, ConditionalValidation)(
@@ -113,7 +123,7 @@ export default withBasicAuth(
                 const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
                 const {shouldNotify} = checkBalance(balanceValue, queryArgs)
                 if (shouldNotify) {
-                    await notify(queryArgs, balanceValue)
+                    await notify(queryArgs, balanceValue, getOrigin(req))
                 }
                 const response: ResponseData = {
                     account: account,

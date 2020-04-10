@@ -4,16 +4,21 @@
     "API_PASS": "@burst-balance-alert-pass",
     "AWS_ID": "@aws-key-id",
     "AWS_SECRET": "@aws-secret-key",
+    "DISCORD_WEBHOOK": "@discord-webhook",
     "BURST_PEER": "https://wallet.burst-alliance.org:8125",
     "BURST_EXPLORER": "https://explorer.burstcoin.network"
   },
   "routes": [
-    { "src": "/api/(.*)",
+    {
+      "src": "/api/(.*)",
       "dest": "/api/$1",
       "headers": {
         "Access-Control-Allow-Headers": "*"
       }
     },
-    { "src": "/.*", "status": 404}
+    {
+      "src": "/.*",
+      "status": 404
+    }
   ]
 }
