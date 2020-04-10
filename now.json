@@ -1,4 +1,18 @@
 {
+  "functions": {
+    "api/status.ts": {
+      "memory": 128,
+      "maxDuration": 10
+    },
+    "api/redirect.ts": {
+      "memory": 128,
+      "maxDuration": 10
+    },
+    "api/check-balance.ts": {
+      "memory": 128,
+      "maxDuration": 60
+    }
+  },
   "env": {
     "API_USER": "@burst-balance-alert-user",
     "API_PASS": "@burst-balance-alert-pass",
