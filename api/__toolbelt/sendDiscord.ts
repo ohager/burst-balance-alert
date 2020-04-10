@@ -6,6 +6,7 @@ import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 interface DiscordArgs {
     accountId: string;
     balance: BurstValue;
+    webhookId: string;
     origin: string;
 }
 
@@ -27,7 +28,9 @@ export default async (args: DiscordArgs): Promise<void> => {
         content: buildMessage(args),
     })
 
-    await fetch(process.env.DISCORD_WEBHOOK,
+    const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${args.webhookId}`
+
+    await fetch(webhookUrl,
         {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

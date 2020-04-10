@@ -52,11 +52,13 @@ const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: s
                 accountId: account,
                 balance: actualBalance,
                 recipientToken: msgAddress,
+                origin
             })
         case 'discord':
             return sendDiscord({
                 accountId: account,
                 balance: actualBalance,
+                webhookId: msgAddress,
                 origin
             })
     }
