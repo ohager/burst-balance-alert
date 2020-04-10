@@ -81,13 +81,12 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
 }
 
 function ConditionalValidation(queryArgs: QueryArgs): true | ValidationError[] {
-    const {msgAddress, msgType, account, compare, targetBurst} = queryArgs
+    const {msgAddress, msgType, compare, targetBurst} = queryArgs
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const notUndef = (v: any): boolean => v !== undefined
     if (!compare) return true
 
     if (compare && (
-        notUndef(account) &&
         notUndef(msgAddress) &&
         notUndef(msgType) &&
         notUndef(targetBurst)
