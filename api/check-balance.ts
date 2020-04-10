@@ -72,10 +72,10 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
     const targetValue = BurstValue.fromBurst(targetBurst);
     switch (compare) {
         case 'gt':
-            shouldNotify = targetValue.greater(actualBalance)
+            shouldNotify = actualBalance.greater(targetValue)
             break
         case 'lt':
-            shouldNotify = targetValue.less(actualBalance)
+            shouldNotify = actualBalance.less(targetValue)
     }
     return {shouldNotify}
 }
@@ -127,7 +127,7 @@ export default withBasicAuth(
                 }
                 res.send(response)
             } catch (e) {
-                res.status(500).send(e.message)
+                await res.status(500).send(e.message)
             }
         }
     )
