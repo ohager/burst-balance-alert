@@ -4,7 +4,8 @@
     "API_PASS": "@burst-balance-alert-pass",
     "AWS_ID": "@aws-key-id",
     "AWS_SECRET": "@aws-secret-key",
-    "BURST_PEER": "https://wallet.burst-alliance.org:8125"
+    "BURST_PEER": "https://wallet.burst-alliance.org:8125",
+    "BURST_EXPLORER": "https://explorer.burstcoin.network"
   },
   "routes": [
     { "src": "/api/(.*)",

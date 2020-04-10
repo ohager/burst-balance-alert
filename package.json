@@ -30,6 +30,7 @@
   "devDependencies": {
     "@now/node": "^1.5.0",
     "@types/node": "^13.11.0",
+    "@types/node-fetch": "^2.5.5",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^6.8.0",
@@ -41,6 +42,7 @@
     "@burstjs/util": "^0.5.0-beta.5",
     "aws-sdk": "^2.648.0",
     "basic-auth": "^2.0.1",
-    "fastest-validator": "^1.1.0"
+    "fastest-validator": "^1.1.0",
+    "node-fetch": "^2.6.0"
   }
 }

@@ -126,6 +126,8 @@ AWS_KEY_ID=<Amazon AWS key id>
 AWS_SECRET_KEY=<Amazon AWS secret>
 # Keep the peer address as it is, and change if you know what you are doing
 BURST_PEER=https://wallet.burst-alliance.org:8125 
+# The explorer used for linking in messages
+BURST_EXPLORER=https://explorer.burstcoin.network
 ```
 
 ### Local Setup 
@@ -163,3 +165,11 @@ To check if service is up copy the following line into your browser:
 `http://<zeit-url>/api/status`
 
 If all is fine, you will see a message like: _Burst Balance Alert is up_
+
+
+## Telegram notification address
+
+To deliver messages on telegram the [Middleman-Bot](https://github.com/n1try/telegram-middleman-bot) is used.
+You just need to [add the bot](https://t.me/MiddleManBot) in your Telegram messenger, and you'll receive an id (e.g. `2a3137d2-2d6a-4e4d-985a-df0d278426b0`).
+This id should be used for the `msgAddress` parameter. 
+

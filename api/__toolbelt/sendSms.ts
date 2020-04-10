@@ -11,7 +11,7 @@ export interface SmsArgs {
 
 export default async ({accountId, balance, phoneNumber}: SmsArgs): Promise<void> => {
     const accountAddress = convertNumericIdToAddress(accountId)
-    const message = `Burstcoin Account Alert - ${accountAddress} has a balance of ${balance.getBurst()} BURST`
+    const message = `Burstcoin Balance Alert - ${accountAddress} has a balance of ${balance.getBurst()} BURST`
     await snsInstance.publish({
         Message: message,
         PhoneNumber: phoneNumber

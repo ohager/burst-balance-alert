@@ -43,17 +43,22 @@ interface ResponseData {
 }
 
 const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue): Promise<void> => {
-    switch (queryArgs.msgType) {
+    const {account, msgType, msgAddress} = queryArgs;
+    switch (msgType) {
         case 'mail':
             return Promise.resolve()
         case 'sms':
-        return sendSms({
-            balance: actualBalance,
-            phoneNumber: queryArgs.msgAddress,
-            accountId: queryArgs.account,
-        })
+            return sendSms({
+                balance: actualBalance,
+                phoneNumber: msgAddress,
+                accountId: account,
+            })
         case 'telegram':
-            return sendTelegram()
+            return sendTelegram({
+                balance: actualBalance,
+                accountId: account,
+                recipientToken: msgAddress,
+            })
     }
     return Promise.resolve()
 }
@@ -76,18 +81,18 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
 }
 
 function ConditionalValidation(queryArgs: QueryArgs): true | ValidationError[] {
-    const {msgAddress, msgType,account,compare,targetBurst} = queryArgs
+    const {msgAddress, msgType, account, compare, targetBurst} = queryArgs
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const notUndef = (v: any): boolean => v !== undefined
-    if(!compare) return true
+    if (!compare) return true
 
-    if(compare && (
+    if (compare && (
         notUndef(account) &&
         notUndef(msgAddress) &&
         notUndef(msgType) &&
         notUndef(targetBurst)
-    )){
-      return true;
+    )) {
+        return true;
     }
 
     return [
