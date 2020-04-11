@@ -8,6 +8,10 @@
       "memory": 128,
       "maxDuration": 10
     },
+    "api/hashicon.ts": {
+      "memory": 128,
+      "maxDuration": 20
+    },
     "api/check-balance.ts": {
       "memory": 128,
       "maxDuration": 60

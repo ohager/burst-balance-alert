@@ -2,13 +2,14 @@ import FastestValidator, {ValidationError, ValidationSchema} from 'fastest-valid
 
 const jsonValidator = new FastestValidator()
 
-const AlwaysTrue = (): true => true
 
 export const withQueryValidation = (jsonSchema: ValidationSchema,
-                                    validationFn: (args: object) => true | ValidationError[] = AlwaysTrue) =>
+                                    validationFn: (args: object) => true | ValidationError[] = null) =>
     next => (req, res): void => {
         let validationResult = jsonValidator.validate(req.query, jsonSchema)
-        validationResult = validationFn(req.query);
+        if(validationFn){
+            validationResult = validationFn(req.query);
+        }
         if (validationResult === true) {
             return next(req, res)
         }

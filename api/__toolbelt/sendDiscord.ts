@@ -13,8 +13,7 @@ interface DiscordArgs {
 const buildMessage = ({accountId, balance, origin}: DiscordArgs): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
-    return `🚨*${accountAddress}*🚨 
-
+    return `
 Balance: \`${balance.getBurst()} BURST\`
 ---
 [Open in Burst Explorer](${buildBurstExplorerUrl(accountId)}) 
@@ -23,12 +22,16 @@ Balance: \`${balance.getBurst()} BURST\`
 }
 
 export default async (args: DiscordArgs): Promise<void> => {
-
+    const {webhookId, origin, accountId} = args;
     const body = JSON.stringify({
-        content: buildMessage(args),
+        embeds: [{
+            title: 'Burst Account Alert',
+            thumbnail: `${origin}/api/hashicon?text=${accountId}&size=l`,
+            description: buildMessage(args)
+        }]
     })
 
-    const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${args.webhookId}`
+    const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${webhookId}`
 
     await fetch(webhookUrl,
         {
