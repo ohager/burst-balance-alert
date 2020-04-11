@@ -23,5 +23,5 @@ export default withQueryValidation(QueryArgsSchema)(
         res.setHeader('Content-Type', ImageFormat)
         res.setHeader('Content-Disposition', 'inline')
         const icon = hashicon(text, {createCanvas, size: SizeMap[size]})
-        res.send(icon.toBuffer(ImageFormat))
+        res.status(200).send(icon.toBuffer(ImageFormat))
     })

@@ -25,11 +25,13 @@ export default async (args: DiscordArgs): Promise<void> => {
     const {webhookId, origin, accountId} = args;
     const body = JSON.stringify({
         embeds: [{
-            title: 'Burst Account Alert',
+            title: 'Balance Alert',
             thumbnail: `${origin}/api/hashicon?text=${accountId}&size=l`,
             description: buildMessage(args)
         }]
     })
+
+    console.log('link', `${origin}/api/hashicon?text=${accountId}&size=l`)
 
     const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${webhookId}`
 
