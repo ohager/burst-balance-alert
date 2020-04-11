@@ -15,10 +15,9 @@ const buildMessage = (accountId: string, balance: BurstValue, origin: string): s
     const accountAddress = convertNumericIdToAddress(accountId)
 
     return `🚨 *${accountAddress}* 🚨
-_[id: ${accountId}](${getHashIconUrl(origin, accountId, 'xxl')})_
+_id: ${accountId}_
 
-*${balance.getBurst()}* BURST
-
+*${balance.getBurst()}* BURST![ ](${getHashIconUrl(origin, accountId, 'xxl')})
 [Open in Burst Explorer](${buildBurstExplorerUrl(accountId)})        
 [Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
 
