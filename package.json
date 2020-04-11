@@ -9,7 +9,8 @@
   "scripts": {
     "start:dev": "now dev",
     "deploy": "now --prod",
-    "lint": "eslint ./api/test.ts --ext .ts"
+    "lint": "eslint ./api/test.ts --ext .ts",
+    "now-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/"
   },
   "repository": {
     "type": "git",
