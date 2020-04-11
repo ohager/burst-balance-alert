@@ -14,9 +14,7 @@ interface TelegramArgs {
 const buildMessage = (accountId: string, balance: BurstValue, origin: string): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
-    return `🚨 Burst Balance Alert 🚨
-
-*${accountAddress}*
+    return `🚨 *${accountAddress}* 🚨
 ![_id: ${accountId}_](${getHashIconUrl(origin, accountId, 'l')})
 
 *${balance.getBurst()}* BURST
