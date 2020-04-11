@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import {BurstValue, convertNumericIdToAddress} from '@burstjs/util';
 import buildBurstExplorerUrl from './buildBurstExplorerUrl';
 import buildPhoenixDeepLink from './buildPhoenixDeepLink';
+import getHashIconUrl from './getHashIconUrl';
 
 interface TelegramArgs {
     accountId: string;
@@ -13,13 +14,18 @@ interface TelegramArgs {
 const buildMessage = (accountId: string, balance: BurstValue, origin: string): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
-    return `🚨*${accountAddress}*🚨 
+    return `🚨 Burst Balance Alert 🚨
 
-Balance: \`${balance.getBurst()} BURST\`
----
-[Open in Burst Explorer](${buildBurstExplorerUrl(accountId)})
-[Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})}) 
-`
+*${accountAddress}*
+_id: ${accountId}_
+
+![icon](${getHashIconUrl(origin, accountId, 'l')})
+
+*${balance.getBurst()}* BURST
+
+[Open in Burst Explorer](${buildBurstExplorerUrl(accountId)})        
+[Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
+
 }
 
 export default async ({accountId, balance, recipientToken, origin}: TelegramArgs): Promise<void> => {

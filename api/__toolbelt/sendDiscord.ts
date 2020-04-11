@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import {BurstValue, convertNumericIdToAddress} from '@burstjs/util';
 import buildBurstExplorerUrl from './buildBurstExplorerUrl';
 import buildPhoenixDeepLink from './buildPhoenixDeepLink';
+import getHashIconUrl from './getHashIconUrl';
 
 interface DiscordArgs {
     accountId: string;
@@ -23,7 +24,7 @@ const buildEmbedMessage = ({accountId, balance, origin}: DiscordArgs): object =>
 [Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
 
     const thumbnail = {
-        url: `${origin}/api/hashicon?text=${accountId}&size=l`,
+        url: getHashIconUrl(origin, accountId, 'l'),
     }
 
     const timestamp = new Date().toISOString();
