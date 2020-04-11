@@ -18,10 +18,11 @@ const SizeMap = {
 }
 
 export default withQueryValidation(QueryArgsSchema)(
-    (req, res): void => {
+    async (req, res): Promise<void> => {
         const {text, size = 'l'} = req.query
         res.setHeader('Content-Type', ImageFormat)
         res.setHeader('Content-Disposition', 'inline')
         const icon = hashicon(text, {createCanvas, size: SizeMap[size]})
-        res.status(200).send(icon.toBuffer(ImageFormat))
+        res.send(icon.toBuffer(ImageFormat))
+        return Promise.resolve()
     })
