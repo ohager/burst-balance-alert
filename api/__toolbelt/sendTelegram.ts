@@ -15,7 +15,7 @@ const buildMessage = (accountId: string, balance: BurstValue, origin: string): s
     const accountAddress = convertNumericIdToAddress(accountId)
 
     return `🚨 *Balance Alert* 🚨 
-*${accountAddress}*🚨
+*${accountAddress}*
 [id: ${accountId}](${buildBurstExplorerUrl(accountId)})        
 
 *${balance.getBurst()}* BURST![ ](${getHashIconUrl(origin, accountId, 'xxl')})
