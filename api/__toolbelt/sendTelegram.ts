@@ -14,11 +14,12 @@ interface TelegramArgs {
 const buildMessage = (accountId: string, balance: BurstValue, origin: string): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
-    return `🚨 *${accountAddress}* 🚨
-_id: ${accountId}_
+    return `🚨 *Balance Alert* 🚨 
+*${accountAddress}*🚨
+_[id: ${accountId}](${buildBurstExplorerUrl(accountId)})_        
 
 *${balance.getBurst()}* BURST![ ](${getHashIconUrl(origin, accountId, 'xxl')})
-[Open in Burst Explorer](${buildBurstExplorerUrl(accountId)})        
+
 [Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
 
 }
