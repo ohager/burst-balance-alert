@@ -46,6 +46,7 @@ const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: s
                 accountId: account,
                 balance: actualBalance,
                 phoneNumber: msgAddress,
+                origin
             })
         case 'telegram':
             return sendTelegram({
