@@ -16,7 +16,7 @@ export default async ({accountId, balance, phoneNumber, origin}: SmsArgs): Promi
     const message = `🚨Burst Balance Alert -
 ${accountAddress} has a balance of ${balance.getBurst()} BURST
 
-Open Phoenix: ${buildPhoenixDeepLink(accountId, origin)}
+Open Phoenix: ${buildPhoenixDeepLink({accountId, origin})}
 `
     await snsInstance.publish({
         Message: message,
