@@ -2,13 +2,6 @@
 # burst-balance-alert
 Simple service, that notifies you (or others) via Mail, SMS, or Telegram, when a Burst account reaches a certain balance.
 
----
-
-__🚨WORK IN PROGRESS 🚨__
-
-__Not ready yet - DON'T USE__
-
----
 # Introduction
 
 Sometimes it is important (or just interesting) when a certain Burst account reaches 
@@ -108,9 +101,6 @@ for [Zeit Now](https://zeit.co) (although, should be possible to host on other P
 4. Clone this repo (requires git): `git clone https://github.com/ohager/burst-balance-alert.git`
 5. Run `npm i` (to install all dependencies)
 
-## Setup AWS SNS
-
-TO DO
 
 ## Setup Zeit Now
 
@@ -151,9 +141,9 @@ For deployment on Zeit you need to run the following commands to [securely confi
 
 `now secrets add burst-balance-alert-pass <your password>`
 
-`now secrets add aws-key-id <your aws key id>`
+`now secrets add aws-key-id <your aws key id>` (see chapter "SMS Notification")
 
-`now secrets add aws-secret-key <your aws secret>`
+`now secrets add aws-secret-key <your aws secret>` (see chapter "SMS Notification")
 
 #### Deploy
 
@@ -166,10 +156,40 @@ To check if service is up copy the following line into your browser:
 
 If all is fine, you will see a message like: _Burst Balance Alert is up_
 
+## SMS Notification
 
-## Telegram notification address
+To send SMS you'll need to have an Amazon AWS account (The free tier is more than sufficient). I recommend not to use your root keys, but create a specific user with limited permissions.
+Therefore, you go to the [AWS IAM Console](https://console.aws.amazon.com/iam/home)
+ 
+1. Create a Group and select the following permissions
+    - `AmazonSESFullAccess` 
+    - `AmazonSNSFullAccess` 
+    
+2. Create A User and add him to the created group
+3. Select the User, go to the _Security Credentials_ setup, and create an Access Key
+4. Write down the id and key; you'll need to inject these credentials as environment variables 
+`AWS_ID` and `AWS_SECRET`
+
+🚨 KEEP THIS KEYS SECRET 🚨
+
+## Telegram Notification
 
 To deliver messages on telegram the [Middleman-Bot](https://github.com/n1try/telegram-middleman-bot) is used.
 You just need to [add the bot](https://t.me/MiddleManBot) in your Telegram messenger, and you'll receive an id (e.g. `2a3137d2-2d6a-4e4d-985a-df0d278426b0`).
 This id should be used for the `msgAddress` parameter. 
 
+🚨 KEEP THIS KEYS SECRET 🚨
+
+## Discord Notification
+
+To setup the notification on Discord you need to create a webhook. Select or create a channel and open the settings.
+Within the settings (you need appropriate permissions), select the webhook section. Once you created a webhook you need 
+the identifying parts of the url, i.e.
+
+```
+https://discordapp.com/api/webhooks/1234567890981733/cVoNiUCPmHZgqXa85tJBQf8vzyWiwrcR6S7xBHefHrYbiR9-6vPR9Uzgz3X5wkYNroT_ 
+                                    |___________________________________________________________________________________|
+                                                    Use this part as your msgAddress
+```
+
+🚨 KEEP THIS KEYS SECRET 🚨
