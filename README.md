@@ -55,28 +55,13 @@ with following Params
 | account  | The accounts id | required |
 | compare  | The comparison operator: _lt_ or _gt_|optional|
 | targetBurst | The balance target for comparison in BURST | required, if `compare` |
-| msgType | The type of message for notification: _sms_, _mail_, or _telegram_ | required, if `compare` |
-| msgAddress | The address identifier for notification, i.e. phone number, email address or telegram id | required, if `compare` |
+| msgRecipient  | A tuple in form `type:address` for notification. Type must be one of _sms_, _mail_, _discord_, or _telegram_ | required, if `compare` |
 
 __Example__
 
-1. Checks for an account's balance, and if less than 10 BURST sends an SMS to given phone number
+1. Just returns an account's balance, without any notification
 
-`/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgType=sms&msgAddress=+5511912345678`
-
-Returns something like this:
-
-```json
-{
-    "account": "13888633022253876551",
-    "balanceBurst": "6.123456",
-    "notified": true
-}
-```
-
-2. Just returns an account's balance, without any notification
-
-`/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgType=sms&msgAddress=+5511912345678`
+`/api/check-balance?account=13736966403016142704`
 
 Returns:
 
@@ -84,19 +69,41 @@ Returns:
 {
     "account": "13888633022253876551",
     "balanceBurst": "16928.87210584",
-    "notified": false 
+    "notified": false
 }
 ```
+
+2. Checks for an account's balance, and if less than 10 BURST sends an SMS to given phone number
+
+`/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgRecipient=sms:+5511912345678`
+
+Returns something like this:
+
+```json
+{
+    "account": "13736966403016142704",
+    "balanceBurst": "8.34955",
+    "targetBurst": "10",
+    "comparator": "lt",
+    "notified": true,
+    "hasNotificationError": false
+}
+```
+
+To send to multiple channels just add another `msgRecipient` parameter.
+
+`/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgRecipient=sms:+5511912345678&msgRecipient=telegram:2a3137d2-2d6a-4e4d-985a-df0d278426b0`
+
 
 # Installation
 
 To run the service, some preparations are necessary, as this service uses [AWS SNS](https://aws.amazon.com/sns/) and is built
-for [Zeit Now](https://zeit.co) (although, should be possible to host on other PaaS, like Heroku or Netlify)
+for [Zeit Now](https://zeit.co) (although, should be possible to host on other PaaS, like Heroku or Netlify, but you'll probably need to some platform specific routing)
 
 ## Install Prerequisites
 
 1. [Install NodeJS 13+](https://nodejs.org/en/download/)
-2. [Create an AWS Account](https://aws.amazon.com/account/) 
+2. [Create an AWS Account](https://aws.amazon.com/account/) (if you want to support SMS)
 3. [Create a Zeit Now Account](https://zeit.co/signup)
 4. Clone this repo (requires git): `git clone https://github.com/ohager/burst-balance-alert.git`
 5. Run `npm i` (to install all dependencies)
