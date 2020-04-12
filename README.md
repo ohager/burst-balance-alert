@@ -2,6 +2,8 @@
 # burst-balance-alert
 Simple service, that notifies you (or others) via Mail, SMS, or Telegram, when a Burst account reaches a certain balance.
 
+> Mail is not supported yet
+
 # Introduction
 
 Sometimes it is important (or just interesting) when a certain Burst account reaches 
@@ -14,6 +16,12 @@ i.e. as SMS, Mail, or Telegram message.
 > e.g.to keep an eye on it. I use this service to monitor the [Burst Activator Account](https://explorer.burstcoin.network/?action=account&account=13736966403016142704) 
 > using [Uptime Robot](https://uptimerobot.com/)
 
+
+## All for free
+Keep in mind, that this solution is somehow scalable as AWS, Zeit Now is used, but this might involve
+incalculable costs. For personal use, you can easily monitor several dozen accounts for free.
+
+ 
 # Usage
 
 Once the service is up (see chapter __Installation__) you can call it using
@@ -30,7 +38,7 @@ __Example__
 This is how a request with `curl` may look like
 
 ```
-curl --location --request GET 'localhost:3000/api/check-balance?account=13888633022253876551' \
+curl --location --request GET 'localhost:3000/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgRecipient=discord:698216412740845730/9PiQ8ZKqUpxbuNqmtAnYbZk_TFwhIvKG-RR7kNSWeKSiOnSrE7m5WI4yK0bjFxNu0gI_&msgRecipient=telegram:2a3137d2-2d6a-4e4d-985a-df0d278426b09&msgRecipient=sms:+5511912345678&alias=MyAccount' \
 --header 'Authorization: Basic U29tZVRlc3RVc2VyOlNvbWVUZXN0VXNlclBhc3M='
 ```
 
@@ -178,7 +186,7 @@ Therefore, you go to the [AWS IAM Console](https://console.aws.amazon.com/iam/ho
 4. Write down the id and key; you'll need to inject these credentials as environment variables 
 `AWS_ID` and `AWS_SECRET`
 
-🚨 KEEP THIS KEYS SECRET 🚨
+🚨 KEEP THIS KEY SECRET 🚨
 
 ## Telegram Notification
 
@@ -186,7 +194,7 @@ To deliver messages on telegram the [Middleman-Bot](https://github.com/n1try/tel
 You just need to [add the bot](https://t.me/MiddleManBot) in your Telegram messenger, and you'll receive an id (e.g. `2a3137d2-2d6a-4e4d-985a-df0d278426b0`).
 This id should be used for the `msgAddress` parameter. 
 
-🚨 KEEP THIS KEYS SECRET 🚨
+🚨 KEEP THIS KEY SECRET 🚨
 
 ## Discord Notification
 
