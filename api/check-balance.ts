@@ -54,33 +54,18 @@ interface SendArgs extends MessageRecipient {
 }
 
 const sendByType = ({type, address, accountId, balance, origin}: SendArgs): Promise<void> => {
-    console.log('sendByType', type, address)
-    switch (type) {
-        case 'mail':
-            return Promise.reject("Mail not supported yet")
-        case 'sms':
-            return sendSms({
-                accountId,
-                balance,
-                phoneNumber: address,
-                origin
-            })
-        case 'telegram':
-            return sendTelegram({
-                accountId,
-                balance,
-                recipientToken: address,
-                origin
-            })
-        case 'discord':
-            return sendDiscord({
-                accountId,
-                balance,
-                webhookId: address,
-                origin
-            })
+
+    const SendFunctions = {
+        mail: (): Promise<void> => Promise.reject('Mail not supported yet'),
+        sms: sendSms,
+        telegram: sendTelegram,
+        discord: sendDiscord
     }
-    return Promise.reject(`Unknown message type: ${type}`)
+
+    const send = SendFunctions[type]
+    return send
+        ? send({accountId, balance, address, origin})
+        : Promise.reject(`Unknown message type: ${type}`);
 
 }
 
@@ -101,7 +86,6 @@ const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: s
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         const results = await Promise.allSettled(promises)
-        console.log(results);
         return results.some(({status}) => status !== 'fulfilled')
     } catch (e) {
         console.error("Notification failed:", e.message)

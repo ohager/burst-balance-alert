@@ -3,13 +3,7 @@ import {BurstValue, convertNumericIdToAddress} from '@burstjs/util';
 import buildBurstExplorerUrl from './buildBurstExplorerUrl';
 import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 import getHashIconUrl from './getHashIconUrl';
-
-interface TelegramArgs {
-    accountId: string;
-    balance: BurstValue;
-    origin: string;
-    recipientToken: string;
-}
+import {SendArgs} from './sendArgs';
 
 const buildMessage = (accountId: string, balance: BurstValue, origin: string): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
@@ -24,9 +18,7 @@ const buildMessage = (accountId: string, balance: BurstValue, origin: string): s
 
 }
 
-export default async ({accountId, balance, recipientToken, origin}: TelegramArgs): Promise<void> => {
-
-    console.log('sending telegram', accountId, balance.toString())
+export default async ({accountId, balance, address : recipientToken, origin}: SendArgs): Promise<void> => {
 
     const body = JSON.stringify({
         // eslint-disable-next-line @typescript-eslint/camelcase

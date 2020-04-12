@@ -3,15 +3,9 @@ import {BurstValue, convertNumericIdToAddress} from '@burstjs/util';
 import buildBurstExplorerUrl from './buildBurstExplorerUrl';
 import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 import getHashIconUrl from './getHashIconUrl';
+import {SendArgs} from './sendArgs';
 
-interface DiscordArgs {
-    accountId: string;
-    balance: BurstValue;
-    webhookId: string;
-    origin: string;
-}
-
-const buildEmbedMessage = ({accountId, balance, origin}: DiscordArgs): object => {
+const buildEmbedMessage = ({accountId, balance, origin}: SendArgs): object => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
     const title = '🚨 Balance Alert 🚨'
@@ -37,10 +31,9 @@ const buildEmbedMessage = ({accountId, balance, origin}: DiscordArgs): object =>
     }
 }
 
-export default async (args: DiscordArgs): Promise<void> => {
+export default async (args: SendArgs): Promise<void> => {
 
-    const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${args.webhookId}`
-    console.log('sending discord', webhookUrl)
+    const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${args.address}`
     const body = JSON.stringify({
         embeds: [buildEmbedMessage(args)]
     })
