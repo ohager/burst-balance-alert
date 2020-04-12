@@ -16,6 +16,7 @@ type MessageType = 'mail' | 'sms' | 'telegram' | 'discord'
 
 interface QueryArgs {
     account: string;
+    alias?: string;
     compare?: CompareType;
     targetBurst?: string;
     msgRecipient?: string[] | string;
@@ -49,11 +50,12 @@ const parseMessageRecipient = (msgRecipient: string): MessageRecipient => {
 
 interface SendArgs extends MessageRecipient {
     accountId: string;
+    alias?: string;
     balance: BurstValue;
     origin: string;
 }
 
-const sendByType = ({type, address, accountId, balance, origin}: SendArgs): Promise<void> => {
+const sendByType = (args: SendArgs): Promise<void> => {
 
     const SendFunctions = {
         mail: (): Promise<void> => Promise.reject('Mail not supported yet'),
@@ -62,20 +64,21 @@ const sendByType = ({type, address, accountId, balance, origin}: SendArgs): Prom
         discord: sendDiscord
     }
 
+    const {type} = args;
     const send = SendFunctions[type]
-    return send
-        ? send({accountId, balance, address, origin})
-        : Promise.reject(`Unknown message type: ${type}`);
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    return send ? send(args) : Promise.reject(`Unknown message type: ${type}`);
 }
 
 const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: string): Promise<boolean> => {
-    const {account, msgRecipient} = queryArgs;
+    const {account, alias, msgRecipient} = queryArgs;
     const messageRecipientList = Array.isArray(msgRecipient) ? msgRecipient : [msgRecipient]
     const promises = messageRecipientList.map(msgRecipient => {
         const {address, type} = parseMessageRecipient(msgRecipient);
         return sendByType({
             accountId: account,
+            alias,
             address,
             balance: actualBalance,
             origin,
@@ -113,6 +116,7 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
 
 const QueryArgsSchema = {
     account: {type: 'string'},
+    alias: {type: 'string', optional: true},
     compare: {type: 'string', enum: ['lt', 'gt'], optional: true},
     targetBurst: {type: 'number', positive: true, optional: true},
     msgType: {type: 'string', enum: ['sms', 'telegram', 'discord', 'mail'], optional: true},
@@ -162,9 +166,9 @@ export default withBasicAuth(
                     hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
                 }
                 const response: ResponseData = {
-                    account: account,
+                    account,
                     balanceBurst: balanceValue.getBurst(),
-                    targetBurst: targetBurst,
+                    targetBurst,
                     comparator: compare,
                     notified: shouldNotify,
                     hasNotificationError

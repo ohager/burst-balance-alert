@@ -5,25 +5,25 @@ import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 import getHashIconUrl from './getHashIconUrl';
 import {SendArgs} from './sendArgs';
 
-const buildMessage = (accountId: string, balance: BurstValue, origin: string): string => {
+const buildMessage = (accountId: string, alias: string, balance: BurstValue, origin: string): string => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
     return `🚨 *Balance Alert* 🚨 
 *${accountAddress}*
 [id: ${accountId}](${buildBurstExplorerUrl(accountId)})        
+${alias}
 
 *${balance.getBurst()}* BURST![ ](${getHashIconUrl(origin, accountId, 'xxl')})
 
 [Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
-
 }
 
-export default async ({accountId, balance, address : recipientToken, origin}: SendArgs): Promise<void> => {
+export default async ({accountId, alias = '', balance, address: recipientToken, origin}: SendArgs): Promise<void> => {
 
     const body = JSON.stringify({
         // eslint-disable-next-line @typescript-eslint/camelcase
         recipient_token: recipientToken,
-        text: buildMessage(accountId, balance, origin),
+        text: buildMessage(accountId, alias, balance, origin),
         origin: "Burst Balance Alert"
     })
 

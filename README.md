@@ -53,6 +53,7 @@ with following Params
 | Argument | Description | Required |
 |----------|-------------|----------|
 | account  | The accounts id | required |
+| alias  | An arbitrary alias for the account  | optional |
 | compare  | The comparison operator: _lt_ or _gt_|optional|
 | targetBurst | The balance target for comparison in BURST | required, if `compare` |
 | msgRecipient  | A tuple in form `type:address` for notification. Type must be one of _sms_, _mail_, _discord_, or _telegram_ | required, if `compare` |
