@@ -26,6 +26,8 @@ const buildMessage = (accountId: string, balance: BurstValue, origin: string): s
 
 export default async ({accountId, balance, recipientToken, origin}: TelegramArgs): Promise<void> => {
 
+    console.log('sending telegram', accountId, balance.toString())
+
     const body = JSON.stringify({
         // eslint-disable-next-line @typescript-eslint/camelcase
         recipient_token: recipientToken,

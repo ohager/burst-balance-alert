@@ -2,7 +2,6 @@ import FastestValidator, {ValidationError, ValidationSchema} from 'fastest-valid
 
 const jsonValidator = new FastestValidator()
 
-
 export const withQueryValidation = (jsonSchema: ValidationSchema,
                                     validationFn: (args: object) => true | ValidationError[] = null) =>
     next => (req, res): void => {

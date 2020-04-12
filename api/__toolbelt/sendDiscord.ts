@@ -38,7 +38,9 @@ const buildEmbedMessage = ({accountId, balance, origin}: DiscordArgs): object =>
 }
 
 export default async (args: DiscordArgs): Promise<void> => {
+
     const webhookUrl = `${process.env.DISCORD_WEBHOOK_API}/${args.webhookId}`
+    console.log('sending discord', webhookUrl)
     const body = JSON.stringify({
         embeds: [buildEmbedMessage(args)]
     })

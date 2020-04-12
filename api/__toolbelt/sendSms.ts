@@ -18,6 +18,8 @@ ${accountAddress} has a balance of ${balance.getBurst()} BURST
 
 Open Phoenix: ${buildPhoenixDeepLink({accountId, origin})}
 `
+    console.log('sending sms', accountId, balance.toString(), phoneNumber)
+
     await snsInstance.publish({
         Message: message,
         PhoneNumber: phoneNumber

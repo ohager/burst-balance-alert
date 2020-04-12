@@ -18,8 +18,7 @@ interface QueryArgs {
     account: string;
     compare?: CompareType;
     targetBurst?: string;
-    msgType?: MessageType; // TODO: multiple types
-    msgAddress?: string;
+    msgRecipient?: string[] | string;
 }
 
 interface CheckResult {
@@ -32,38 +31,82 @@ interface ResponseData {
     targetBurst: string;
     comparator: CompareType;
     notified: boolean;
-    notificationType?: MessageType;
-    recipientAddress?: string;
+    hasNotificationError: boolean;
 }
 
-const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: string): Promise<void> => {
-    const {account, msgType, msgAddress} = queryArgs;
-    switch (msgType) {
+interface MessageRecipient {
+    type: MessageType;
+    address: string;
+}
+
+const parseMessageRecipient = (msgRecipient: string): MessageRecipient => {
+    const split = msgRecipient.split(':');
+    return {
+        type: split[0].trim() as MessageType,
+        address: split[1].trim()
+    }
+};
+
+interface SendArgs extends MessageRecipient {
+    accountId: string;
+    balance: BurstValue;
+    origin: string;
+}
+
+const sendByType = ({type, address, accountId, balance, origin}: SendArgs): Promise<void> => {
+    console.log('sendByType', type, address)
+    switch (type) {
         case 'mail':
             return Promise.reject("Mail not supported yet")
         case 'sms':
             return sendSms({
-                accountId: account,
-                balance: actualBalance,
-                phoneNumber: msgAddress,
+                accountId,
+                balance,
+                phoneNumber: address,
                 origin
             })
         case 'telegram':
             return sendTelegram({
-                accountId: account,
-                balance: actualBalance,
-                recipientToken: msgAddress,
+                accountId,
+                balance,
+                recipientToken: address,
                 origin
             })
         case 'discord':
             return sendDiscord({
-                accountId: account,
-                balance: actualBalance,
-                webhookId: msgAddress,
+                accountId,
+                balance,
+                webhookId: address,
                 origin
             })
     }
-    return Promise.resolve()
+    return Promise.reject(`Unknown message type: ${type}`)
+
+}
+
+const notify = async (queryArgs: QueryArgs, actualBalance: BurstValue, origin: string): Promise<boolean> => {
+    const {account, msgRecipient} = queryArgs;
+    const messageRecipientList = Array.isArray(msgRecipient) ? msgRecipient : [msgRecipient]
+    const promises = messageRecipientList.map(msgRecipient => {
+        const {address, type} = parseMessageRecipient(msgRecipient);
+        return sendByType({
+            accountId: account,
+            address,
+            balance: actualBalance,
+            origin,
+            type
+        })
+    });
+    try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        const results = await Promise.allSettled(promises)
+        console.log(results);
+        return results.some(({status}) => status !== 'fulfilled')
+    } catch (e) {
+        console.error("Notification failed:", e.message)
+        return false
+    }
 }
 
 const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckResult => {
@@ -89,19 +132,24 @@ const QueryArgsSchema = {
     compare: {type: 'string', enum: ['lt', 'gt'], optional: true},
     targetBurst: {type: 'number', positive: true, optional: true},
     msgType: {type: 'string', enum: ['sms', 'telegram', 'discord', 'mail'], optional: true},
-    msgAddress: {type: 'string', optional: true}
+    msgAddress: {type: 'string', optional: true},
+    msgRecipient: {
+        type: "array", items: {
+            type: "string",
+            pattern: /^sms|mail|discord|telegram:.*/
+        }
+    }
 }
 
-
 const ConditionalValidation = (queryArgs: QueryArgs): true | ValidationError[] => {
-    const {msgAddress, msgType, compare, targetBurst} = queryArgs
+    const {compare, targetBurst, msgRecipient} = queryArgs
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const notUndef = (v: any): boolean => v !== undefined
     if (!compare) return true
 
     if (compare && (
-        notUndef(msgAddress) &&
-        notUndef(msgType) &&
+        notUndef(msgRecipient) &&
         notUndef(targetBurst)
     )) {
         return true;
@@ -111,7 +159,7 @@ const ConditionalValidation = (queryArgs: QueryArgs): true | ValidationError[] =
         {
             type: 'string',
             field: 'compare',
-            message: 'Field [compare] requires [msgAddress, msgType, targetBurst]'
+            message: 'Field [compare] requires [msgRecipient, targetBurst]'
         }
     ]
 };
@@ -121,12 +169,13 @@ export default withBasicAuth(
         async (req: NowRequest, res: NowResponse): Promise<void> => {
             try {
                 const queryArgs = req.query as unknown as QueryArgs
-                const {account, msgType, compare, targetBurst, msgAddress} = queryArgs;
+                const {account, compare, targetBurst} = queryArgs;
                 const balance = await BurstApi.account.getAccountBalance(account)
                 const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
                 const {shouldNotify} = checkBalance(balanceValue, queryArgs)
+                let hasNotificationError = false
                 if (shouldNotify) {
-                    await notify(queryArgs, balanceValue, getOrigin(req))
+                    hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
                 }
                 const response: ResponseData = {
                     account: account,
@@ -134,8 +183,7 @@ export default withBasicAuth(
                     targetBurst: targetBurst,
                     comparator: compare,
                     notified: shouldNotify,
-                    notificationType: msgType,
-                    recipientAddress: msgAddress
+                    hasNotificationError
                 }
                 res.send(response)
             } catch (e) {
