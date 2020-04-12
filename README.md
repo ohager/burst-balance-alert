@@ -1,6 +1,6 @@
 
 # burst-balance-alert
-Simple service, that notifies you (or others) via Mail, SMS, or Telegram, when a Burst account reaches a certain balance.
+Simple service, that notifies you (or others) via Mail, SMS, Discord, or Telegram, when a Burst account reaches a certain balance.
 
 > Mail is not supported yet
 
@@ -18,9 +18,10 @@ i.e. as SMS, Mail, or Telegram message.
 
 
 ## All for free
-Keep in mind, that this solution is somehow scalable as AWS, Zeit Now is used, but this might involve
-incalculable costs. For personal use, you can easily monitor several dozen accounts for free.
 
+Keep in mind, that this solution is somehow scalable as AWS, Zeit Now is used, but this might involve
+incalculable costs. For personal use, you can easily monitor several dozen accounts every 5 Minutes for free, using free tiers
+of AWS (100 SMS/month free), [Zeit Now](https://zeit.co/blog/simpler-pricing), and/or [Uptime Robot](https://uptimerobot.com/pricing) or [Freshping](https://www.freshworks.com/website-monitoring/pricing/)
  
 # Usage
 
