@@ -116,7 +116,7 @@ const checkBalance = (actualBalance: BurstValue, queryArgs: QueryArgs): CheckRes
 
 const QueryArgsSchema = {
     account: {type: 'string'},
-    alias: {type: 'string', optional: true},
+    alias: {type: 'string', optional: true, max: 20},
     compare: {type: 'string', enum: ['lt', 'gt'], optional: true},
     targetBurst: {type: 'number', positive: true, optional: true},
     msgType: {type: 'string', enum: ['sms', 'telegram', 'discord', 'mail'], optional: true},
