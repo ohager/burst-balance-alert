@@ -39,7 +39,7 @@ __Example__
 This is how a request with `curl` may look like
 
 ```
-curl --location --request GET 'localhost:3000/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgRecipient=discord:698216412740845730/9PiQ8ZKqUpxbuNqmtAnYbZk_TFwhIvKG-RR7kNSWeKSiOnSrE7m5WI4yK0bjFxNu0gI_&msgRecipient=telegram:2a3137d2-2d6a-4e4d-985a-df0d278426b09&msgRecipient=sms:+5511912345678&alias=MyAccount' \
+curl --location --request GET 'localhost:3000/api/check-balance?account=13736966403016142704&compare=lt&targetBurst=10&msgRecipient=discord:1234567890981733/cVoNiUCPmHZgqXa85tJBQf8vzyWiwrcR6S7xBHefHrYbiR9-6vPR9Uzgz3X5wkYNroT_&msgRecipient=telegram:2a3137d2-2d6a-4e4d-985a-df0d278426b09&msgRecipient=sms:+5511912345678&alias=MyAccount' \
 --header 'Authorization: Basic U29tZVRlc3RVc2VyOlNvbWVUZXN0VXNlclBhc3M='
 ```
 
@@ -77,7 +77,7 @@ Returns:
 
 ```json
 {
-    "account": "13888633022253876551",
+    "account": "13736966403016142704",
     "balanceBurst": "16928.87210584",
     "notified": false
 }
@@ -206,7 +206,7 @@ the identifying parts of the url, i.e.
 ```
 https://discordapp.com/api/webhooks/1234567890981733/cVoNiUCPmHZgqXa85tJBQf8vzyWiwrcR6S7xBHefHrYbiR9-6vPR9Uzgz3X5wkYNroT_ 
                                     |___________________________________________________________________________________|
-                                                    Use this part as your msgAddress
+                                           Use this part as your address part for msgRecipient - discord:<address> 
 ```
 
 🚨 KEEP THIS KEYS SECRET 🚨
