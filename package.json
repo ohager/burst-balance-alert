@@ -46,6 +46,6 @@
     "canvas": "^2.6.1",
     "fastest-validator": "^1.1.0",
     "hashicon": "^0.3.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   }
 }
