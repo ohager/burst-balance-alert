@@ -174,7 +174,7 @@ withBasicAuth(
                 //     notified: shouldNotify,
                 //     hasNotificationError
                 // }
-                res.status(200).send('test')
+                res.status(200).send(process.env.BURST_PEER)
                 // res.send(response)
             } catch (e) {
                 await res.status(500).send(e.message)
