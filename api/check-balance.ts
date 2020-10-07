@@ -153,31 +153,32 @@ const ConditionalValidation = (queryArgs: QueryArgs): true | ValidationError[] =
 };
 
 export default
-// withBasicAuth(
+withBasicAuth(
     withQueryValidation(QueryArgsSchema, ConditionalValidation)(
         async (req: NowRequest, res: NowResponse): Promise<void> => {
             try {
                 const queryArgs = req.query as unknown as QueryArgs
-                const {account, compare, targetBurst} = queryArgs;
-                const balance = await BurstApi.account.getAccountBalance(account)
-                const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
-                const {shouldNotify} = checkBalance(balanceValue, queryArgs)
-                let hasNotificationError = false
-                if (shouldNotify) {
-                    hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
-                }
-                const response: ResponseData = {
-                    account,
-                    balanceBurst: balanceValue.getBurst(),
-                    targetBurst,
-                    comparator: compare,
-                    notified: shouldNotify,
-                    hasNotificationError
-                }
-                res.send(response)
+                res.status(200).send('test')
+                // const {account, compare, targetBurst} = queryArgs;
+                // const balance = await BurstApi.account.getAccountBalance(account)
+                // const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
+                // const {shouldNotify} = checkBalance(balanceValue, queryArgs)
+                // let hasNotificationError = false
+                // if (shouldNotify) {
+                //     hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
+                // }
+                // const response: ResponseData = {
+                //     account,
+                //     balanceBurst: balanceValue.getBurst(),
+                //     targetBurst,
+                //     comparator: compare,
+                //     notified: shouldNotify,
+                //     hasNotificationError
+                // }
+                // res.send(response)
             } catch (e) {
                 await res.status(500).send(e.message)
             }
         }
     )
-// )
+)
