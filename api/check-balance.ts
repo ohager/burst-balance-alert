@@ -160,22 +160,21 @@ withBasicAuth(
                 const queryArgs = req.query as unknown as QueryArgs
                 const {account, compare, targetBurst} = queryArgs;
                 const balance = await BurstApi.account.getAccountBalance(account)
-                // const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
-                // const {shouldNotify} = checkBalance(balanceValue, queryArgs)
-                // let hasNotificationError = false
-                // if (shouldNotify) {
-                //     hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
-                // }
-                // const response: ResponseData = {
-                //     account,
-                //     balanceBurst: balanceValue.getBurst(),
-                //     targetBurst,
-                //     comparator: compare,
-                //     notified: shouldNotify,
-                //     hasNotificationError
-                // }
-                res.status(200).send(process.env.BURST_PEER)
-                // res.send(response)
+                const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
+                const {shouldNotify} = checkBalance(balanceValue, queryArgs)
+                let hasNotificationError = false
+                if (shouldNotify) {
+                    hasNotificationError = await notify(queryArgs, balanceValue, getOrigin(req));
+                }
+                const response: ResponseData = {
+                    account,
+                    balanceBurst: balanceValue.getBurst(),
+                    targetBurst,
+                    comparator: compare,
+                    notified: shouldNotify,
+                    hasNotificationError
+                }
+                res.send(response)
             } catch (e) {
                 await res.status(500).send(e)
             }
