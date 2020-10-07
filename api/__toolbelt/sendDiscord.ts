@@ -19,16 +19,16 @@ ${alias}
 [Open in Burst Explorer](${buildBurstExplorerUrl(accountId)})        
 [Recharge Account with Phoenix Wallet](${buildPhoenixDeepLink({accountId, origin})})`
 
-    const thumbnail = {
-        url: getHashIconUrl(origin, accountId, 'l'),
-    }
+    // const thumbnail = {
+    //     url: getHashIconUrl(origin, accountId, 'l'),
+    // }
 
     const timestamp = new Date().toISOString();
 
     return {
         title,
         description,
-        thumbnail,
+        // thumbnail,
         timestamp
     }
 }

@@ -1,5 +1,5 @@
-import hashicon from 'hashicon'
-import {createCanvas} from 'canvas'
+// import hashicon from 'hashicon'
+// import {createCanvas} from 'canvas'
 import {withQueryValidation} from './__toolbelt/withQueryValidation';
 
 const ImageFormat = 'image/png'
@@ -22,7 +22,7 @@ export default withQueryValidation(QueryArgsSchema)(
         const {text, size = 'l'} = req.query
         res.setHeader('Content-Type', ImageFormat)
         res.setHeader('Content-Disposition', 'inline')
-        const icon = hashicon(text, {createCanvas, size: SizeMap[size]})
-        res.send(icon.toBuffer(ImageFormat))
+        // const icon = hashicon(text, {createCanvas, size: SizeMap[size]})
+        // res.send(icon.toBuffer(ImageFormat))
         return Promise.resolve()
     })
