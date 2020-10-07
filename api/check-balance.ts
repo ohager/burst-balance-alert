@@ -158,9 +158,8 @@ withBasicAuth(
         async (req: NowRequest, res: NowResponse): Promise<void> => {
             try {
                 const queryArgs = req.query as unknown as QueryArgs
-                res.status(200).send('test')
-                // const {account, compare, targetBurst} = queryArgs;
-                // const balance = await BurstApi.account.getAccountBalance(account)
+                const {account, compare, targetBurst} = queryArgs;
+                const balance = await BurstApi.account.getAccountBalance(account)
                 // const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
                 // const {shouldNotify} = checkBalance(balanceValue, queryArgs)
                 // let hasNotificationError = false
@@ -175,6 +174,7 @@ withBasicAuth(
                 //     notified: shouldNotify,
                 //     hasNotificationError
                 // }
+                res.status(200).send('test')
                 // res.send(response)
             } catch (e) {
                 await res.status(500).send(e.message)
