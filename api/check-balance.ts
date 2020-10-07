@@ -1,5 +1,5 @@
 import {ApiSettings, composeApi} from '@burstjs/core';
-import {NowRequest, NowResponse} from '@now/node';
+import {NowRequest, NowResponse} from '@vercel/node';
 import {ValidationError} from 'fastest-validator';
 import {withBasicAuth} from './__toolbelt/withBasicAuth'
 import {BurstValue} from '@burstjs/util';

@@ -21,7 +21,6 @@ ${alias}
 export default async ({accountId, alias = '', balance, address: recipientToken, origin}: SendArgs): Promise<void> => {
 
     const body = JSON.stringify({
-        // eslint-disable-next-line @typescript-eslint/camelcase
         recipient_token: recipientToken,
         text: buildMessage(accountId, alias, balance, origin),
         origin: "Burst Balance Alert"

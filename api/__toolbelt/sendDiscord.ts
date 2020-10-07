@@ -5,7 +5,7 @@ import buildPhoenixDeepLink from './buildPhoenixDeepLink';
 import getHashIconUrl from './getHashIconUrl';
 import {SendArgs} from './sendArgs';
 
-const buildEmbedMessage = ({accountId, alias = '', balance, origin}: SendArgs): object => {
+const buildEmbedMessage = ({accountId, alias = '', balance, origin}: SendArgs): Record<string, unknown> => {
     const accountAddress = convertNumericIdToAddress(accountId)
 
     const title = '🚨 Balance Alert 🚨'

@@ -1,4 +1,4 @@
-import {NowRequest} from '@now/node/dist';
+import {NowRequest} from '@vercel/node';
 
 export default (req: NowRequest): string => {
     const host = req.headers.host;
