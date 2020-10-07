@@ -152,7 +152,8 @@ const ConditionalValidation = (queryArgs: QueryArgs): true | ValidationError[] =
     ]
 };
 
-export default withBasicAuth(
+export default
+// withBasicAuth(
     withQueryValidation(QueryArgsSchema, ConditionalValidation)(
         async (req: NowRequest, res: NowResponse): Promise<void> => {
             try {
@@ -179,4 +180,4 @@ export default withBasicAuth(
             }
         }
     )
-)
+// )
