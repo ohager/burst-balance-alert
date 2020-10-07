@@ -9,8 +9,7 @@
   "scripts": {
     "start:dev": "vercel dev",
     "deploy": "vercel --prod",
-    "lint": "eslint ./api/test.ts --ext .ts",
-    "vercel-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/"
+    "lint": "eslint ./api/test.ts --ext .ts"
   },
   "repository": {
     "type": "git",
