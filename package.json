@@ -4,13 +4,13 @@
   "description": "A simple service that alerts if a certain Burstcoin account passes a threshold",
   "main": "index.js",
   "engines": {
-    "node": "12.x"
+    "node": "12.14"
   },
   "scripts": {
-    "start:dev": "now dev",
-    "deploy": "now --prod",
+    "start:dev": "vercel dev",
+    "deploy": "vercel --prod",
     "lint": "eslint ./api/test.ts --ext .ts",
-    "now-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/"
+    "vercel-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/"
   },
   "repository": {
     "type": "git",
