@@ -159,7 +159,7 @@ withBasicAuth(
             try {
                 const queryArgs = req.query as unknown as QueryArgs
                 const {account, compare, targetBurst} = queryArgs;
-                const balance = await BurstApi.account.getAccountBalance(account)
+                // const balance = await BurstApi.account.getAccountBalance(account)
                 // const balanceValue = BurstValue.fromPlanck(balance.balanceNQT)
                 // const {shouldNotify} = checkBalance(balanceValue, queryArgs)
                 // let hasNotificationError = false
