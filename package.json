@@ -39,7 +39,7 @@
     "@burstjs/core": "^0.5.1",
     "@burstjs/util": "^0.5.1",
     "@vercel/node": "^1.8.3",
-    "aws-sdk": "^2.768.0",
+    "aws-sdk": "^2.814.0",
     "basic-auth": "^2.0.1",
     "fastest-validator": "^1.7.0",
     "node-fetch": "^2.6.1"
