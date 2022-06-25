@@ -42,6 +42,6 @@
     "aws-sdk": "^2.768.0",
     "basic-auth": "^2.0.1",
     "fastest-validator": "^1.7.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }
