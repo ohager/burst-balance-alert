@@ -1,20 +1,16 @@
 {
   "functions": {
     "api/status.ts": {
-      "memory": 128,
-      "maxDuration": 10
+      "memory": 128
     },
     "api/redirect.ts": {
-      "memory": 128,
-      "maxDuration": 10
+      "memory": 128
     },
     "api/hashicon.ts": {
-      "memory": 128,
-      "maxDuration": 20
+      "memory": 256
     },
     "api/check-balance.ts": {
-      "memory": 128,
-      "maxDuration": 60
+      "memory": 256
     }
   },
   "routes": [
